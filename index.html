@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск отелей по странам</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% if page == 'home' %}
+        <h1>Доступные отели</h1>
+        {% for h in hotels %}
+            <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 8px; background: white;">
+                <h2 class="hotel-title">{{ h.name }} ({{ h.city }})</h2>
+                <span class="hotel-price">{{ h.price }} ₽ / ночь</span>
+                <p class="hotel-description">{{ h.description }}</p>
+                <a href="{{ url_for('hotel_detail', hotel_id=h.id) }}">
+                    <button>Подробнее</button>
+                </a>
+            </div>
+        {% endfor %}
+        
+    {% elif page == 'hotel' %}
+        <div style="background: white; padding: 20px; border-radius: 8px;">
+            <h1 class="hotel-title">{{ hotel.name }}</h1>
+            <span class="hotel-price">{{ hotel.price }} ₽ / ночь</span>
+            <p><strong>Адрес:</strong> {{ hotel.city }}, {{ hotel.address }}</p>
+            <p><strong>Рейтинг:</strong> {{ hotel.rating }} ⭐</p>
+            <p class="hotel-description">{{ hotel.description }}</p>
+            <p><strong>Удобства:</strong> {{ hotel.amenities | join(', ') }}</p>
+            
+            <br>
+            <a href="{{ url_for('index') }}">
+                <button>Назад к списку</button>
+            </a>
+        </div>
+    {% endif %}
+</body>
+</html>
